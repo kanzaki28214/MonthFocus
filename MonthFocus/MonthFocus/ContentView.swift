@@ -34,6 +34,9 @@ struct ContentView: View {
                 }
         }
         .tint(theme.tint)
+        .background(theme.background.ignoresSafeArea())
+        .toolbarBackground(theme.background, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
     }
 }
 
@@ -93,7 +96,10 @@ private struct CurrentMonthView: View {
             .background(theme.background.ignoresSafeArea())
             .navigationTitle("Month Focus")
             .toolbarTitleDisplayMode(.inline)
+            .toolbarBackground(theme.background, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
+        .background(theme.background.ignoresSafeArea())
     }
 }
 
@@ -119,6 +125,8 @@ private struct AddTaskView: View {
                     TextField("詳細", text: $detail, axis: .vertical)
                         .lineLimit(4, reservesSpace: true)
                 }
+                .listRowBackground(theme.card)
+                .foregroundStyle(theme.text)
 
                 Section("期間と優先度") {
                     DatePicker("期間", selection: $targetMonth, displayedComponents: .date)
@@ -130,6 +138,8 @@ private struct AddTaskView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+                .listRowBackground(theme.card)
+                .foregroundStyle(theme.text)
 
                 Button {
                     saveTask()
@@ -137,16 +147,20 @@ private struct AddTaskView: View {
                     Label("追加", systemImage: "plus")
                         .frame(maxWidth: .infinity)
                 }
+                .listRowBackground(theme.card)
                 .disabled(!canSave)
             }
             .scrollContentBackground(.hidden)
             .background(theme.background.ignoresSafeArea())
             .navigationTitle("やりたいことを追加")
             .toolbarTitleDisplayMode(.inline)
+            .toolbarBackground(theme.background, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .onAppear {
                 targetMonth = selectedMonth
             }
         }
+        .background(theme.background.ignoresSafeArea())
     }
 
     private func saveTask() {
@@ -194,6 +208,8 @@ private struct SettingsView: View {
                     }
                     .pickerStyle(.segmented)
                 }
+                .listRowBackground(theme.card)
+                .foregroundStyle(theme.text)
 
                 Section("月のまとめ") {
                     DatePicker("対象月", selection: $selectedMonth, displayedComponents: .date)
@@ -211,6 +227,8 @@ private struct SettingsView: View {
                             .frame(maxWidth: .infinity)
                     }
                 }
+                .listRowBackground(theme.card)
+                .foregroundStyle(theme.text)
 
                 Section("閲覧") {
                     if reflections.isEmpty {
@@ -222,17 +240,21 @@ private struct SettingsView: View {
                         }
                     }
                 }
+                .listRowBackground(theme.card)
             }
             .scrollContentBackground(.hidden)
             .background(theme.background.ignoresSafeArea())
             .navigationTitle("設定")
             .toolbarTitleDisplayMode(.inline)
+            .toolbarBackground(theme.background, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .onAppear(perform: loadReflection)
             .onChange(of: selectedMonth) {
                 selectedMonth = Calendar.current.startOfMonth(for: selectedMonth)
                 loadReflection()
             }
         }
+        .background(theme.background.ignoresSafeArea())
     }
 
     private var sortedReflections: [MonthReflection] {
